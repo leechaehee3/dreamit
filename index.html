@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>꿈it(잇)다 — 사이트맵</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #EEEEF6;
+    color: #222;
+    min-height: 100vh;
+  }
+
+  /* ───────────────────────────────
+     PORTRAIT (기본 / 세로)
+  ─────────────────────────────── */
+
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px;
+    background: #EEEEF6;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .logo {
+    font-size: 17px;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .logo .accent { color: #6B6CF5; }
+
+  .hamburger {
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+    background: none;
+    border: none;
+    line-height: 1;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main content */
+  .app-content {
+    flex: 1;
+    padding: 12px 24px 60px;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* Sidebar — hidden in portrait */
+  .sidebar {
+    display: none;
+  }
+
+  /* Overlay (portrait only) */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 200;
+  }
+  .overlay.open { display: block; }
+
+  /* Drawer (portrait) */
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 240px;
+    height: 100%;
+    background: white;
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform 0.26s ease;
+    border-radius: 16px 0 0 16px;
+    box-shadow: -4px 0 32px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 20px 14px;
+    border-bottom: 1px solid #F2F2F2;
+  }
+  .close-btn {
+    font-size: 20px;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .drawer-nav { flex: 1; padding: 8px 0; }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .nav-item:hover, .nav-item.active { background: #F3F3FB; color: #6B6CF5; }
+
+  .drawer-footer {
+    padding: 18px 24px;
+    border-top: 1px solid #F2F2F2;
+  }
+  .drawer-footer button {
+    font-size: 13px;
+    color: #BBB;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ── Cards ── */
+  .top-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .top-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .top-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.09); }
+  .top-card .icon-wrap {
+    width: 58px; height: 58px;
+    background: #F0EFFF;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .top-card .label { font-size: 14px; font-weight: 600; }
+
+  /* Search */
+  .search-panel {
+    background: white;
+    border-radius: 20px;
+    padding: 18px 20px 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .tab-row {
+    display: flex;
+    background: #F5F5F5;
+    border-radius: 11px;
+    padding: 4px;
+    margin-bottom: 14px;
+  }
+  .tab {
+    flex: 1;
+    padding: 9px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #999;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    font-family: inherit;
+  }
+  .tab.active { background: #333; color: white; }
+
+  .search-row { display: flex; gap: 10px; }
+  .search-input {
+    flex: 1;
+    border: 1.5px solid #E8E8EE;
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+    background: #FAFAFA;
+  }
+  .search-input:focus { border-color: #6B6CF5; background: white; }
+  .search-btn {
+    background: #6B6CF5;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .search-btn:hover { background: #5556E0; }
+
+  footer {
+    margin-top: 32px;
+    text-align: center;
+    font-size: 12px;
+    color: #CCC;
+    padding-bottom: 32px;
+  }
+  footer a { color: #6B6CF5; text-decoration: none; }
+
+  /* ───────────────────────────────
+     LANDSCAPE / TABLET  ≥ 768px 가로
+  ─────────────────────────────── */
+  @media (min-width: 768px) and (orientation: landscape),
+         (min-width: 1024px) {
+
+    .app-layout {
+      flex-direction: row;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar 항상 표시 */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 220px;
+      min-width: 220px;
+      background: white;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      box-shadow: 2px 0 16px rgba(0,0,0,0.06);
+      z-index: 10;
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 22px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #333;
+      border-bottom: 1px solid #F2F2F2;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sidebar-logo .accent { color: #6B6CF5; }
+
+    .sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+    .sidebar-nav .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #444;
+      text-decoration: none;
+      border-radius: 0;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-nav .nav-item:hover { background: #F3F3FB; color: #6B6CF5; }
+    .sidebar-nav .nav-item.active {
+      background: #F0EFFF;
+      color: #6B6CF5;
+      border-left-color: #6B6CF5;
+    }
+    .sidebar-nav .nav-item .nav-emoji { font-size: 18px; }
+
+    .sidebar-footer {
+      padding: 20px 24px;
+      border-top: 1px solid #F2F2F2;
+      font-size: 11px;
+      color: #CCC;
+      line-height: 1.6;
+    }
+    .sidebar-footer a { color: #6B6CF5; text-decoration: none; }
+
+    /* 햄버거 숨기기, 헤더 숨기기 */
+    .app-header { display: none; }
+    /* Drawer/overlay 숨기기 */
+    .overlay, .drawer { display: none !important; }
+
+    /* Main area scrollable */
+    .main-area {
+      flex: 1;
+      overflow-y: auto;
+      height: 100vh;
+    }
+
+    .app-content {
+      max-width: 800px;
+      padding: 36px 40px 60px;
+      margin: 0;
+    }
+
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    .top-cards {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .top-card { padding: 28px 12px 22px; }
+    .top-card .icon-wrap { width: 64px; height: 64px; font-size: 30px; }
+    .top-card .label { font-size: 15px; }
+
+    .search-panel { padding: 20px 24px 24px; }
+  }
+
+  /* Portrait 모바일 추가 보완 */
+  @media (max-width: 480px) {
+    .top-cards { grid-template-columns: repeat(2, 1fr); }
+    .app-content { padding: 12px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- ── SIDEBAR (landscape only) ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo"><span class="accent">i-</span> 꿈잇다</div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="https://jinro.goedu.kr/" target="_blank">
+        <span class="nav-emoji">🏠</span> 꿈잇다 홈
+      </a>
+      <a class="nav-item" href="https://jinro.goedu.kr/jobInfo" target="_blank">
+        <span class="nav-emoji">💡</span> 직업정보
+      </a>
+      <a class="nav-item" href="https://jinro.goedu.kr/universityInfo" target="_blank">
+        <span class="nav-emoji">📜</span> 대학정보
+      </a>
+      <a class="nav-item" href="https://jinro.goedu.kr/gyeonggiSupport" target="_blank">
+        <span class="nav-emoji">🏫</span> 진로체험처
+      </a>
+      <a class="nav-item" href="https://jinro.goedu.kr/aiInterviewUsageGuide" target="_blank">
+        <span class="nav-emoji">🤖</span> AI 모의면접
+      </a>
+      <a class="nav-item" href="https://jinro.goedu.kr/announcements" target="_blank">
+        <span class="nav-emoji">📢</span> 공지사항
+      </a>
+      <a class="nav-item" href="https://jinro.goedu.kr/login" target="_blank">
+        <span class="nav-emoji">🔐</span> 로그인
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      경기도교육청<br/>
+      <a href="https://jinro.goedu.kr/" target="_blank">jinro.goedu.kr</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN AREA ── -->
+  <div class="main-area">
+
+    <!-- Header (portrait only) -->
+    <header class="app-header">
+      <div class="logo"><span class="accent">i-</span> 꿈잇다</div>
+      <button class="hamburger" onclick="openMenu()">☰</button>
+    </header>
+
+    <!-- Content -->
+    <main class="app-content">
+
+      <div class="page-title" style="display:none" id="pageTitle">직업정보 탐색</div>
+
+      <div class="top-cards">
+        <a class="top-card" href="https://jinro.goedu.kr/jobInfo" target="_blank">
+          <div class="icon-wrap">💡</div>
+          <div class="label">직업정보</div>
+        </a>
+        <a class="top-card" href="https://jinro.goedu.kr/universityInfo" target="_blank">
+          <div class="icon-wrap">📜</div>
+          <div class="label">대학정보</div>
+        </a>
+        <a class="top-card" href="https://jinro.goedu.kr/gyeonggiSupport" target="_blank">
+          <div class="icon-wrap">🏫</div>
+          <div class="label">진로체험처</div>
+        </a>
+        <a class="top-card" href="https://jinro.goedu.kr/aiInterviewUsageGuide" target="_blank">
+          <div class="icon-wrap">🤖</div>
+          <div class="label">AI 모의면접</div>
+        </a>
+      </div>
+
+      <div class="search-panel">
+        <div class="tab-row">
+          <button class="tab active" onclick="setTab(this)">직업 사전</button>
+          <button class="tab" onclick="setTab(this)">직업인 영상</button>
+        </div>
+        <div class="search-row">
+          <input class="search-input" id="searchInput" type="text" placeholder="직업 이름을 입력해요"/>
+          <button class="search-btn" onclick="doSearch()">검색</button>
+        </div>
+      </div>
+
+      <footer>
+        경기도교육청 꿈it(잇)다 &nbsp;|&nbsp;
+        <a href="https://jinro.goedu.kr/" target="_blank">jinro.goedu.kr</a>
+      </footer>
+    </main>
+
+  </div><!-- /main-area -->
+
+</div><!-- /app-layout -->
+
+<!-- ── PORTRAIT DRAWER ── -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <button class="close-btn" onclick="closeMenu()">✕</button>
+  </div>
+  <nav class="drawer-nav">
+    <a class="nav-item" href="https://jinro.goedu.kr/" target="_blank">🏠&nbsp; 꿈잇다 홈</a>
+    <a class="nav-item" href="https://jinro.goedu.kr/jobInfo" target="_blank">💡&nbsp; 직업정보</a>
+    <a class="nav-item" href="https://jinro.goedu.kr/universityInfo" target="_blank">📜&nbsp; 대학정보</a>
+    <a class="nav-item" href="https://jinro.goedu.kr/gyeonggiSupport" target="_blank">🏫&nbsp; 진로체험처</a>
+    <a class="nav-item" href="https://jinro.goedu.kr/aiInterviewUsageGuide" target="_blank">🤖&nbsp; AI 모의면접</a>
+    <a class="nav-item" href="https://jinro.goedu.kr/announcements" target="_blank">📢&nbsp; 공지사항</a>
+    <a class="nav-item" href="https://jinro.goedu.kr/login" target="_blank">🔐&nbsp; 로그인</a>
+  </nav>
+  <div class="drawer-footer">
+    <button onclick="closeMenu()">닫기</button>
+  </div>
+</div>
+
+<script>
+  function openMenu() {
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+  function closeMenu() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+  function setTab(el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('searchInput').placeholder = el.textContent + ' 이름을 입력해요';
+  }
+  function doSearch() {
+    const val = document.getElementById('searchInput').value.trim();
+    if (val) window.open('https://jinro.goedu.kr/jobInfo?q=' + encodeURIComponent(val), '_blank');
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+
+  // 화면 방향 전환 시 drawer 닫기
+  window.addEventListener('orientationchange', closeMenu);
+</script>
+</body>
+</html>
